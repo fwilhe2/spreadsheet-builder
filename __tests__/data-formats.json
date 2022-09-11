@@ -1,27 +1,5 @@
 [
-  [
-    {
-      "value": "String"
-    },
-    {
-      "value": "Float"
-    },
-    {
-      "value": "Date"
-    },
-    {
-      "value": "Time"
-    },
-    {
-      "value": "Currency"
-    },
-    {
-      "value": "Currency with Cents"
-    },
-    {
-      "value": "Percent"
-    }
-  ],
+  ["String", "Float", "Date", "Time", "Currency", "Currency with Cents", "Percentage"],
   [
     {
       "value": "ABBA",

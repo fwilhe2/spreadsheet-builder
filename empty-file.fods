@@ -9,7 +9,7 @@
     <office:styles>
         <style:default-style style:family="table-cell">
             <style:paragraph-properties style:tab-stop-distance="0.5in" />
-            <style:text-properties style:font-name="Liberation Sans" fo:font-size="10pt" fo:language="en" fo:country="US" style:font-name-asian="Noto Sans CJK SC" style:font-size-asian="10pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="Lohit Devanagari" style:font-size-complex="10pt" style:language-complex="hi" style:country-complex="IN" />
+            <style:text-properties style:font-name="Liberation Sans" fo:font-size="10pt" fo:language="en" fo:country="DE" style:font-name-asian="Noto Sans CJK SC" style:font-size-asian="10pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="Lohit Devanagari" style:font-size-complex="10pt" style:language-complex="hi" style:country-complex="IN" />
         </style:default-style>
         <number:number-style style:name="N0">
             <number:number number:min-integer-digits="1" />
@@ -83,6 +83,41 @@
         <style:style style:name="ta1" style:family="table" style:master-page-name="Default">
             <style:table-properties table:display="true" style:writing-mode="lr-tb" />
         </style:style>
+        <number:currency-style style:name="N10121P0" style:volatile="true" number:language="en" number:country="DE">
+            <number:number number:decimal-places="2" number:min-decimal-places="2" number:min-integer-digits="1" number:grouping="true" />
+            <number:text />
+            <number:currency-symbol number:language="de" number:country="DE">€</number:currency-symbol>
+        </number:currency-style>
+        <number:currency-style style:name="N10121" number:language="en" number:country="DE">
+            <style:text-properties fo:color="#ff0000" />
+            <number:text>-</number:text>
+            <number:number number:decimal-places="2" number:min-decimal-places="2" number:min-integer-digits="1" number:grouping="true" />
+            <number:text />
+            <number:currency-symbol number:language="de" number:country="DE">€</number:currency-symbol>
+            <style:map style:condition="value()&gt;=0" style:apply-style-name="N10121P0" />
+        </number:currency-style>
+        <number:percentage-style style:name="N11">
+            <number:number number:decimal-places="2" number:min-decimal-places="2" number:min-integer-digits="1" />
+            <number:text>%</number:text>
+        </number:percentage-style>
+        <number:date-style style:name="N49">
+            <number:year number:style="long" />
+            <number:text>-</number:text>
+            <number:month number:style="long" />
+            <number:text>-</number:text>
+            <number:day number:style="long" />
+        </number:date-style>
+        <number:time-style style:name="N61">
+            <number:hours number:style="long" />
+            <number:text>:</number:text>
+            <number:minutes number:style="long" />
+            <number:text>:</number:text>
+            <number:seconds number:style="long" />
+        </number:time-style>
+        <style:style style:name="ce1" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N49" />
+        <style:style style:name="ce2" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N61" />
+        <style:style style:name="ce3" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N10121" />
+        <style:style style:name="ce4" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N11" />
         <style:page-layout style:name="pm1">
             <style:page-layout-properties style:writing-mode="lr-tb" />
             <style:header-style>
