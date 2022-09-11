@@ -14,10 +14,8 @@ describe("Spreadsheet builder", () => {
     const expectedCsv = `"String","Float","Date","Time","Currency","Currency with Cents","Percentage"\n"ABBA",42.3324,2022-02-02,19:03:00,3.00€,2.22€,42.23%\n`;
 
     const spreadsheet = JSON.parse((await readFile("__tests__/data-formats.json")).toString());
-    const template = (await readFile("empty-file.fods")).toString();
-    const spreadsheetRows = await buildSpreadsheet(spreadsheet);
-    const output = template.replace("TABLE_ROWS", spreadsheetRows);
-    await writeFile("__tests__/output.fods", output);
+    const actualFods = await buildSpreadsheet(spreadsheet);
+    await writeFile("__tests__/output.fods", actualFods);
 
     // todo: see why this did not work using execa
 
