@@ -22,7 +22,7 @@ export async function buildSpreadsheet(spreadsheet: spreadsheetInput): Promise<s
     });
     tableRows += "</table:table-row>\n";
   });
-  return FODS_TEMPLATE.replace('TABLE_ROWS', tableRows);
+  return FODS_TEMPLATE.replace("TABLE_ROWS", tableRows);
 }
 
 function tableCell(cell: cell): string {
@@ -260,4 +260,4 @@ const FODS_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>
             <table:named-expressions />
         </office:spreadsheet>
     </office:body>
-</office:document>`
+</office:document>`;
