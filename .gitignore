@@ -1,4 +1,4 @@
-node_modules/
+__tests__/output
 dist
-__tests__/output*
 docs
+node_modules/
