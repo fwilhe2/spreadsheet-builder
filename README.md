@@ -2,9 +2,19 @@
 
 The purpose of this library is to create spreadsheet files using JavaScript/TypeScript code.
 
+```bash
+yarn add spreadsheet-builder-lib
+```
+
+```bash
+npm i spreadsheet-builder-lib
+```
+
 Example code:
 
 ```typescript
+import { buildSpreadsheet } from "spreadsheet-builder-lib";
+
 const spreadsheet = [
   ["String", "Float", "Date", "Time", "Currency", "Percentage"],
   [
