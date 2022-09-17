@@ -1,8 +1,12 @@
 export type spreadsheetInput = row[];
 export type row = cell[];
-export type cell = complexCell | string;
+export type cell = complexCell | formulaCell | string;
 export interface complexCell {
   value: string; // | number
+  valueType?: valueType | undefined;
+}
+export interface formulaCell {
+  formula: string;
   valueType?: valueType | undefined;
 }
 export type valueType = "string" | "float" | "date" | "time" | "currency" | "percentage";
@@ -28,6 +32,10 @@ export async function buildSpreadsheet(spreadsheet: spreadsheetInput): Promise<s
 function tableCellElement(cell: cell): string {
   if (typeof cell == "string") {
     return `<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>${cell}</text:p> </table:table-cell>`;
+  }
+
+  if ('formula' in cell) {
+    return `<table:table-cell table:formula="of:${cell.formula}" office:value-type="${cell.valueType}" calcext:value-type="${cell.valueType}"/>`
   }
 
   if (cell.valueType === "float") {
