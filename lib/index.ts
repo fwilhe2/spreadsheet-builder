@@ -29,7 +29,7 @@ function mapCells(value: cell, index: number, array: cell[]): string {
 
 function tableCellElement(cell: cell): string {
   if (typeof cell == "string") {
-    return `<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>${cell}</text:p> </table:table-cell>`;
+    return `<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p><![CDATA[${cell}]]></text:p> </table:table-cell>`;
   }
 
   if (cell.valueType === "float") {
@@ -58,7 +58,7 @@ function tableCellElement(cell: cell): string {
     return `<table:table-cell office:value="${cell.value}" table:style-name="PERCENTAGE_STYLE" office:value-type="percentage" calcext:value-type="percentage" />`;
   }
 
-  return `<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>${cell.value}</text:p> </table:table-cell>`;
+  return `<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p><![CDATA[${cell.value}]]></text:p> </table:table-cell>`;
 }
 
 const FODS_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>

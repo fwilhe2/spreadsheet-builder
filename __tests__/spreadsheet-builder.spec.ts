@@ -15,9 +15,9 @@ describe("Unit tests", () => {
       ],
     ];
     const actual = await buildSpreadsheet(input);
-    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>a</text:p> </table:table-cell>');
-    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>b</text:p> </table:table-cell>');
-    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>c</text:p> </table:table-cell>');
+    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p><![CDATA[a]]></text:p> </table:table-cell>');
+    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p><![CDATA[b]]></text:p> </table:table-cell>');
+    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p><![CDATA[c]]></text:p> </table:table-cell>');
     expect(actual).toMatch('<table:table-cell office:value="1" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />');
     expect(actual).toMatch('<table:table-cell office:value="2" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />');
     expect(actual).toMatch('<table:table-cell office:value="3" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />');
@@ -40,7 +40,9 @@ describe("Spreadsheet builder", () => {
     // todo: see why this did not work using execa
 
     const e = promisify(exec);
-    await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/common-data-formats.fods --outdir __tests__/output');
+    const p = await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/common-data-formats.fods --outdir __tests__/output');
+
+    expect(p.stderr).toEqual("");
 
     const actualCsv = (await readFile("__tests__/output/common-data-formats.csv")).toString();
     expect(actualCsv).toEqual(expectedCsv);
@@ -87,9 +89,29 @@ describe("Spreadsheet builder", () => {
     // todo: see why this did not work using execa
 
     const e = promisify(exec);
-    await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/performanceModel.fods --outdir __tests__/output');
+    const p = await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/performanceModel.fods --outdir __tests__/output');
+
+    expect(p.stderr).toEqual("");
 
     const actualCsv = (await readFile("__tests__/output/performanceModel.csv")).toString();
+    expect(actualCsv).toEqual(expectedCsv);
+  });
+
+  test("CDATA needs to be escaped", async () => {
+    const expectedCsv = `"<xml is=""a thing"">","foo & bar"\n`;
+
+    const spreadsheet = [['<xml is="a thing">', "foo & bar"]];
+    const actualFods = await buildSpreadsheet(spreadsheet);
+    await writeFile("__tests__/output/cdata.fods", actualFods);
+
+    // todo: see why this did not work using execa
+
+    const e = promisify(exec);
+    const p = await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/cdata.fods --outdir __tests__/output');
+
+    expect(p.stderr).toEqual("");
+
+    const actualCsv = (await readFile("__tests__/output/cdata.csv")).toString();
     expect(actualCsv).toEqual(expectedCsv);
   });
 });
