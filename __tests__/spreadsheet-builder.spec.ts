@@ -72,4 +72,37 @@ describe("Spreadsheet builder", () => {
     const actualCsv = (await readFile("__tests__/output/performanceModel.csv")).toString();
     expect(actualCsv).toEqual(expectedCsv);
   });
+
+  test("formula", async () => {
+    const mySpreadsheet: spreadsheetInput = [
+      ['sum', 'avg'],
+      [{ "value": "42.3324", "valueType": "float" }, { "value": "42.3324", "valueType": "float" }],
+      [{ "value": "1.12", "valueType": "float" }, { "value": "1.12", "valueType": "float" }],
+      [{ "value": "7.98", "valueType": "float" }, { "value": "7.98", "valueType": "float" }],
+      [
+        {
+          "formula": "=SUM([.A2:.A4])",
+          "valueType": "float"
+        },
+        {
+          "formula": "=AVERAGE([.B2:.B4])",
+          "valueType": "float"
+        }
+      ],
+      [
+        {
+          "formula": "=[.A5]+1",
+          "valueType": "float"
+        },
+        {
+          "formula": "=ROUND([.A6];1)",
+          "valueType": "float"
+        }
+      ],
+
+    ]
+    const actualFods = await buildSpreadsheet(mySpreadsheet);
+    await writeFile("__tests__/output/formula.fods", actualFods);
+
+  })
 });
