@@ -4,6 +4,26 @@ import { mkdir, readFile, rm, writeFile } from "fs/promises";
 import { promisify } from "util";
 import { buildSpreadsheet, spreadsheetInput } from "../lib";
 
+describe("Unit tests", () => {
+  test("buildSpreadsheet creates expected cells", async () => {
+    const input: spreadsheetInput = [
+      ["a", "b", "c"],
+      [
+        { value: "1", valueType: "float" },
+        { value: "2", valueType: "float" },
+        { value: "3", valueType: "float" },
+      ],
+    ];
+    const actual = await buildSpreadsheet(input);
+    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>a</text:p> </table:table-cell>');
+    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>b</text:p> </table:table-cell>');
+    expect(actual).toMatch('<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p>c</text:p> </table:table-cell>');
+    expect(actual).toMatch('<table:table-cell office:value="1" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />');
+    expect(actual).toMatch('<table:table-cell office:value="2" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />');
+    expect(actual).toMatch('<table:table-cell office:value="3" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />');
+  });
+});
+
 describe("Spreadsheet builder", () => {
   beforeAll(async () => {
     await rm("__tests__/output", { recursive: true, force: true });

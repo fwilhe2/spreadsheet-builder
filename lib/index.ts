@@ -14,15 +14,17 @@ export type spreadsheetOutput = string;
  * @returns string Flat OpenDocument Spreadsheet document
  */
 export async function buildSpreadsheet(spreadsheet: spreadsheetInput): Promise<string> {
-  let tableRows = "";
-  spreadsheet.forEach((row) => {
-    tableRows += "                <table:table-row>\n";
-    row.forEach((cell) => {
-      tableRows += `                    ${tableCellElement(cell)}\n`;
-    });
-    tableRows += "                </table:table-row>\n";
-  });
+  const tableRows = spreadsheet.map(mapRows).join("\n");
+
   return FODS_TEMPLATE.replace("TABLE_ROWS", tableRows);
+}
+
+function mapRows(value: row, index: number, array: row[]): string {
+  return `                <table:table-row>\n${value.map(mapCells).join("")}                </table:table-row>\n`;
+}
+
+function mapCells(value: cell, index: number, array: cell[]): string {
+  return `                    ${tableCellElement(value)}\n`;
 }
 
 function tableCellElement(cell: cell): string {
