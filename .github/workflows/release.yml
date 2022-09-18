@@ -28,6 +28,7 @@ jobs:
           node-version: latest
           registry-url: https://registry.npmjs.org/
       - run: yarn
+      - run: yarn run build
       - name: yarn publish
         run: |
           git config --global user.name 'Florian Wilhelm'
