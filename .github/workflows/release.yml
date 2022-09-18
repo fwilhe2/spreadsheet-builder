@@ -1,0 +1,34 @@
+name: Publish Node.js Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: latest
+      - run: |
+          sudo apt-get install -y libreoffice libreoffice-l10n-de
+      - run: |
+          yarn
+      - run: |
+          yarn run all
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          registry-url: https://registry.npmjs.org/
+      - run: yarn
+      - run: yarn publish --patch
+        env:
+          NPM_TOKEN: ${{secrets.NPM_PUBLISH}}
+      - run: git push --tags
