@@ -42,6 +42,7 @@ describe("Spreadsheet builder", () => {
     const e = promisify(exec);
     const p = await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/common-data-formats.fods --outdir __tests__/output');
 
+    console.log(p.stdout);
     expect(p.stderr).toEqual("");
 
     const actualCsv = (await readFile("__tests__/output/common-data-formats.csv")).toString();
@@ -91,6 +92,7 @@ describe("Spreadsheet builder", () => {
     const e = promisify(exec);
     const p = await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/performanceModel.fods --outdir __tests__/output');
 
+    console.log(p.stdout);
     expect(p.stderr).toEqual("");
 
     const actualCsv = (await readFile("__tests__/output/performanceModel.csv")).toString();
@@ -109,6 +111,7 @@ describe("Spreadsheet builder", () => {
     const e = promisify(exec);
     const p = await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/cdata.fods --outdir __tests__/output');
 
+    console.log(p.stdout);
     expect(p.stderr).toEqual("");
 
     const actualCsv = (await readFile("__tests__/output/cdata.csv")).toString();
