@@ -114,4 +114,26 @@ describe("Spreadsheet builder", () => {
     const actualCsv = (await readFile("__tests__/output/cdata.csv")).toString();
     expect(actualCsv).toEqual(expectedCsv);
   });
+
+  test("named ranges", async () => {
+    const expectedCsv = ``;
+
+    const spreadsheet: spreadsheetInput = [[{ title: 'Year' }, { title: 'Sales EMEA' }, { title: 'Sales US' }, { title: "Sales AP" }],
+    ['2020', { value: "100", valueType: "float" }, { value: "163", valueType: "float" }, { value: "206", valueType: "float" }],
+    ['2021', { value: "130", valueType: "float" }, { value: "139", valueType: "float" }, { value: "197", valueType: "float" }],
+    ['2022', { value: "180", valueType: "float" }, { value: "177", valueType: "float" }, { value: "201", valueType: "float" }],
+    ];
+    const actualFods = await buildSpreadsheet(spreadsheet);
+    await writeFile("__tests__/output/named-ranges.fods", actualFods);
+
+    // todo: see why this did not work using execa
+
+    const e = promisify(exec);
+    const p = await e('libreoffice --headless --convert-to csv:"Text - txt - csv (StarCalc)":"44,34,76,1,,1031,true,true" __tests__/output/named-ranges.fods --outdir __tests__/output');
+
+    expect(p.stderr).toEqual("");
+
+    const actualCsv = (await readFile("__tests__/output/named-ranges.csv")).toString();
+    expect(actualCsv).toEqual(expectedCsv);
+  });
 });

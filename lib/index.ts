@@ -8,15 +8,23 @@ export interface complexCell {
 export type valueType = "string" | "float" | "date" | "time" | "currency" | "percentage";
 export type spreadsheetOutput = string;
 
+export interface spreadsheetOptions {
+ addFilters: boolean
+}
+
 /**
  * Build a spreadsheet from data
  * @param spreadsheet list of lists of cells
  * @returns string Flat OpenDocument Spreadsheet document
  */
-export async function buildSpreadsheet(spreadsheet: spreadsheetInput): Promise<string> {
+export async function buildSpreadsheet(spreadsheet: spreadsheetInput, spreadsheetOptions?: spreadsheetOptions): Promise<string> {
   const tableRows = spreadsheet.map(mapRows).join("\n");
-
-  return FODS_TEMPLATE.replace("TABLE_ROWS", tableRows);
+  const dbRanges = spreadsheetOptions?.addFilters ? `<table:database-ranges>
+  <table:database-range table:name="DB_RANGE_FILTER" table:target-range-address="Sheet1.A1:Sheet1.Z${spreadsheet.length}" table:display-filter-buttons="true"/>
+</table:database-ranges>`: ''
+  const tableWithRows = FODS_TEMPLATE.replace("TABLE_ROWS", tableRows);
+  const tableWithRanges = tableWithRows.replace('<!--DATABASE_RANGES-->', '')
+  return tableWithRanges;
 }
 
 function mapRows(value: row, index: number, array: row[]): string {
@@ -115,6 +123,7 @@ const FODS_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>
             <table:table table:name="Sheet1">
 TABLE_ROWS
             </table:table>
+<!--DATABASE_RANGES-->
         </office:spreadsheet>
     </office:body>
 </office:document>`;
