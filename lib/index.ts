@@ -8,12 +8,26 @@ export interface complexCell {
 export type valueType = "string" | "float" | "date" | "time" | "currency" | "percentage";
 export type spreadsheetOutput = string;
 
+export interface spreadsheetOptions {
+  autoCalculate: boolean,
+  autoFilter: boolean,
+  freezeFirstColumn: boolean,
+  freezeFirstRow: boolean,
+}
+
+const defaultOptions: spreadsheetOptions = {
+  autoCalculate: false,
+  autoFilter: false,
+  freezeFirstColumn: false,
+  freezeFirstRow: false,
+}
+
 /**
  * Build a spreadsheet from data
  * @param spreadsheet list of lists of cells
  * @returns string Flat OpenDocument Spreadsheet document
  */
-export async function buildSpreadsheet(spreadsheet: spreadsheetInput): Promise<string> {
+export async function buildSpreadsheet(spreadsheet: spreadsheetInput, options: spreadsheetOptions = defaultOptions): Promise<string> {
   const tableRows = spreadsheet.map(mapRows).join("\n");
 
   return FODS_TEMPLATE.replace("TABLE_ROWS", tableRows);
