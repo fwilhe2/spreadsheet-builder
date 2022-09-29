@@ -16,13 +16,13 @@
     "dependency-upgrade": "yarn upgrade && yarn run all"
   },
   "devDependencies": {
-    "@types/jest": "^29.0.3",
+    "@types/jest": "^29.1.0",
     "@types/node": "^18.7.23",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.38.1",
     "eslint": "^8.24.0",
     "execa": "^6.1.0",
-    "jest": "^29.0.2",
+    "jest": "^29.1.1",
     "prettier": "2.7.1",
     "ts-jest": "^29.0.2",
     "typedoc": "^0.23.15",
