@@ -1,5 +1,7 @@
 # Spreadsheet builder library
 
+**Superseeded by [kalkulationsbogen](https://github.com/fwilhe2/kalkulationsbogen)**
+
 The purpose of this library is to create spreadsheet files using JavaScript/TypeScript code.
 
 ```bash
